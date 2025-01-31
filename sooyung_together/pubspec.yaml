@@ -58,14 +58,17 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  assets:
+    - asset/img/
+
   fonts:
     - family: NanumGothic
       fonts:
-        - asset: assets/font/NanumGothic-Bold.ttf
+        - asset: asset/font/NanumGothic-Bold.ttf
           weight: 600
-        - asset: assets/font/NanumGothic-ExtraBold.ttf
+        - asset: asset/font/NanumGothic-ExtraBold.ttf
           weight: 700
-        - asset: assets/font/NanumGothic-Regular.ttf
+        - asset: asset/font/NanumGothic-Regular.ttf
           weight: 500
   # To add assets to your application, add an assets section, like this:
   # assets:
