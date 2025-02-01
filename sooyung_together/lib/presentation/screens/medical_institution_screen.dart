@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sooyung_together/data/models/status_medical_institudtions_model.dart';
 import 'package:sooyung_together/presentation/widgets/custom_dropdown.dart';
+import '../../core/constants/per_page.dart';
 import '../../data/repositories/medical_institution_repository.dart';
 import '../widgets/pagination.dart';
 
@@ -17,7 +18,7 @@ class MedicalInstitutionScreen extends StatefulWidget {
 class _MedicalInstitutionScreenState extends State<MedicalInstitutionScreen> {
   // 페이지네이션 관련 상태
   final PaginationState _paginationState = PaginationState();
-  late MedicalRepository _repository;
+  late MedicalInstitutionRepository _repository;
   List<MedicalInstitution> _institutions = [];
   bool _isLoading = false;
 
@@ -29,7 +30,7 @@ class _MedicalInstitutionScreenState extends State<MedicalInstitutionScreen> {
   }
 
   void _initRepository() {
-    _repository = MedicalRepository(
+    _repository = MedicalInstitutionRepository(
       page: _paginationState.currentPage,
       perPage: _paginationState.perPage,
     );
@@ -38,7 +39,7 @@ class _MedicalInstitutionScreenState extends State<MedicalInstitutionScreen> {
   Future<void> fetchMedicalInstitutions() async {
     setState(() => _isLoading = true);
     try {
-      final institutions = await _repository.getMedicalInstitutions();
+      final institutions = await _repository.getItems();
       setState(() {
         _institutions = institutions;
         _paginationState.totalCount = _repository.totalCount;
@@ -82,8 +83,8 @@ class _MedicalInstitutionScreenState extends State<MedicalInstitutionScreen> {
         ),
       );
 
-  Widget _buildPerPageDropdown() => CustomDropdown<PerPageMedicalInstitution>(
-        items: PerPageMedicalInstitution.values.toList(),
+  Widget _buildPerPageDropdown() => CustomDropdown<PerPage>(
+        items: PerPage.values.toList(),
         initialValue: _paginationState.getCurrentPerPage(),
         onChanged: _handlePerPageChange,
         displayName: (item) => '${item.valueToNumber}개씩',
@@ -153,7 +154,7 @@ class _MedicalInstitutionScreenState extends State<MedicalInstitutionScreen> {
     );
   }
 
-  void _handlePerPageChange(PerPageMedicalInstitution value) {
+  void _handlePerPageChange(PerPage value) {
     setState(() {
       _paginationState.perPage = value.valueToNumber;
       _initRepository();
@@ -178,10 +179,10 @@ class PaginationState {
 
   int get totalPages => (totalCount / perPage).ceil();
 
-  PerPageMedicalInstitution getCurrentPerPage() {
-    return PerPageMedicalInstitution.values.firstWhere(
+  PerPage getCurrentPerPage() {
+    return PerPage.values.firstWhere(
       (element) => element.valueToNumber == perPage,
-      orElse: () => PerPageMedicalInstitution.values.first,
+      orElse: () => PerPage.values.first,
     );
   }
 }

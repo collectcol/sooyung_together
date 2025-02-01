@@ -24,26 +24,6 @@ class MedicalInstitution {
   }
 }
 
-enum PerPageMedicalInstitution {
-  ten,
-  twenty,
-  thirty,
-  fifty;
-
-  int get valueToNumber {
-    switch (this) {
-      case PerPageMedicalInstitution.ten:
-        return 10;
-      case PerPageMedicalInstitution.twenty:
-        return 20;
-      case PerPageMedicalInstitution.thirty:
-        return 30;
-      case PerPageMedicalInstitution.fifty:
-        return 50;
-    }
-  }
-}
-
 enum TypeOfMedicalInstitution {
   all, // 전체
   hospital, // 병원

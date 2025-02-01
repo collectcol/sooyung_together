@@ -12,7 +12,7 @@ class DioClient {
 
   DioClient._internal() {
     dio = Dio()
-      ..options.baseUrl = ApiEndpoints.baseURL
+      ..options.baseUrl = ApiEndpoints.medicalInstitutions
       ..options.connectTimeout = const Duration(seconds: 5)
       ..options.receiveTimeout = const Duration(seconds: 3)
       ..interceptors.add(LogInterceptor(

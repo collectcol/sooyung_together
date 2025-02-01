@@ -3,6 +3,7 @@ import 'package:sooyung_together/presentation/screens/medical_institution_screen
 
 import '../../core/constants/category.dart';
 import '../../core/constants/color.dart';
+import 'famous_restaurant_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
@@ -30,6 +31,23 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  void _navigateToScreen(BuildContext context, CategoryType category) {
+    Widget screen;
+
+    switch (category) {
+      case CategoryType.medicalInstitution:
+        screen = MedicalInstitutionScreen(title: category.title);
+      case CategoryType.famousRestaurant:
+        screen = FamousRestaurantScreen(title: category.title);
+      default:
+        screen = Container();
+    }
+
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => screen),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,18 +58,8 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: ListView(
                 children: Category.map(
-                  (e) => GestureDetector(
-                    onTap: () {
-                      // setState(() {
-                      //   expandedCategory[e.toString()] =
-                      //       !(expandedCategory[e.toString()] ?? false);
-                      // });
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (BuildContext context) {
-                          return MedicalInstitutionScreen(title: e.toString());
-                        },
-                      ));
-                    },
+                  (category) => GestureDetector(
+                    onTap: ()=> _navigateToScreen(context, category),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: Container(
@@ -65,13 +73,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              e.toString(),
+                              category.title,
                               style: textStyle,
                             ),
                             Icon(
-                              // expandedCategory[e.toString()] ?? false
-                              //     ? Icons.arrow_drop_down_outlined
-                              //     : Icons.arrow_right_outlined,
                               Icons.arrow_right_outlined,
                               color: Colors.black,
                               size: 20,
