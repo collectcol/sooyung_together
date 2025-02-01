@@ -42,13 +42,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: Category.map(
                   (e) => GestureDetector(
                     onTap: () {
-                      setState(() {
-                        expandedCategory[e.toString()] =
-                            !(expandedCategory[e.toString()] ?? false);
-                      });
+                      // setState(() {
+                      //   expandedCategory[e.toString()] =
+                      //       !(expandedCategory[e.toString()] ?? false);
+                      // });
                       Navigator.of(context).push(MaterialPageRoute(
                         builder: (BuildContext context) {
-                          return MedicalInstitutionScreen();
+                          return MedicalInstitutionScreen(title: e.toString());
                         },
                       ));
                     },
@@ -69,9 +69,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               style: textStyle,
                             ),
                             Icon(
-                              expandedCategory[e.toString()] ?? false
-                                  ? Icons.arrow_drop_down_outlined
-                                  : Icons.arrow_right_outlined,
+                              // expandedCategory[e.toString()] ?? false
+                              //     ? Icons.arrow_drop_down_outlined
+                              //     : Icons.arrow_right_outlined,
+                              Icons.arrow_right_outlined,
                               color: Colors.black,
                               size: 20,
                             ),

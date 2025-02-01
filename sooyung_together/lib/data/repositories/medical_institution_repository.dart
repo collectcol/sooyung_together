@@ -6,19 +6,38 @@ import '../../core/network/dio_client.dart';
 
 class MedicalRepository {
   final Dio _dio = DioClient().dio;
+  final int page;
+  final int perPage;
+  int totalCount = 0;
+
+  MedicalRepository({
+    required this.page,
+    required this.perPage,
+  });
+
+  String buildUrl() {
+    return ApiEndpoints.baseURL + ApiEndpoints.medicalInstitutions;
+  }
+
+  Map<String, dynamic> getQueryParameters() {
+    return {
+      'page': page,
+      'perPage': perPage,
+      'serviceKey': ApiEndpoints.authKeyDecoding,
+    };
+  }
 
   Future<List<MedicalInstitution>> getMedicalInstitutions() async {
     try {
-      final response = await _dio.get(ApiEndpoints.baseURL + ApiEndpoints.authKey,
-      queryParameters: {
-        'serviceKey': ApiEndpoints.medicalInstitutions,
-        'page': 1,
-        'perPage': 10,
-      });
+      final response = await _dio.get(
+        buildUrl(),
+        queryParameters: getQueryParameters(),
+      );
+      totalCount = response.data['totalCount'];
       final List<dynamic> data = response.data['data'];
       return data.map((json) => MedicalInstitution.fromJson(json)).toList();
     } catch (e) {
-      throw Exception('Failed to fetch medical institutions');
+      throw Exception('데이터를 가져오는데 실패하였습니다.');
     }
   }
 }
