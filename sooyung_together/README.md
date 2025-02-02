@@ -1,33 +1,39 @@
-# sooyung_together
 
-A new Flutter project.
+lib/core/
 
-## Getting Started
+앱 전체에서 공통으로 사용되는 기능들
+constants/: 상수 값들 (API 엔드포인트, 색상, 카테고리 등)
+network/: 네트워크 관련 설정 (Dio 클라이언트 등)
+utils/: 유틸리티 함수들
+theme/: 앱 테마 관련 설정
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+lib/data/
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+데이터 계층 관련 코드
+models/: API 응답을 담는 데이터 모델 클래스들
+repositories/: API 호출 구현체
+datasources/: 로컬/원격 데이터 소스 구현
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
 
-core                : 공통 유틸리티 및 상수
-    - constants     : 상수 값들
-    - utils         : 유틸리티 함수들
+lib/domain/
 
-data                : 데이터 계층
-    - models        : 데이터 모델
-    - repositories  : 구현된 레포지토리
+비즈니스 로직 계층
+entities/: 비즈니스 로직에서 사용할 순수한 데이터 객체
+repositories/: repository 인터페이스 정의
+usecases/: 비즈니스 로직 구현
 
-domain              : 도메인 계층
-    - entities      : 비즈니스 엔티티
-    - repositories  : 레포지토리 인터페이스
 
-presentation        : UI 계층
-    - screens       : 화면
-    - widgets       : 재사용 가능한 위젯들
-    - blocs/providers   : 상태관리 폴더
+lib/presentation/
+
+UI 관련 코드
+screens/: 각 화면 위젯
+widgets/: 재사용 가능한 커스텀 위젯
+viewmodels/: 화면의 상태관리 로직
+providers/: 상태 관리 provider들
+
+
+lib/main.dart
+
+앱의 진입점
+앱 초기화 및 설정

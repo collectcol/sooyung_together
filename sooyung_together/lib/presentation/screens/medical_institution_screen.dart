@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:sooyung_together/data/models/status_medical_institudtions_model.dart';
+import 'package:sooyung_together/data/models/medical_institudtions_model.dart';
 import 'package:sooyung_together/presentation/widgets/custom_dropdown.dart';
 import '../../core/constants/per_page.dart';
+import '../../core/states/pagination_state.dart';
 import '../../data/repositories/medical_institution_repository.dart';
 import '../widgets/pagination.dart';
 
 class MedicalInstitutionScreen extends StatefulWidget {
   final String title;
 
-  const MedicalInstitutionScreen({super.key, required this.title});
+  const MedicalInstitutionScreen({
+    super.key,
+    required this.title,
+  });
 
   @override
   State<MedicalInstitutionScreen> createState() =>
@@ -19,7 +23,7 @@ class _MedicalInstitutionScreenState extends State<MedicalInstitutionScreen> {
   // 페이지네이션 관련 상태
   final PaginationState _paginationState = PaginationState();
   late MedicalInstitutionRepository _repository;
-  List<MedicalInstitution> _institutions = [];
+  List<MedicalInstitution> _dataList = [];
   bool _isLoading = false;
 
   @override
@@ -39,10 +43,10 @@ class _MedicalInstitutionScreenState extends State<MedicalInstitutionScreen> {
   Future<void> fetchMedicalInstitutions() async {
     setState(() => _isLoading = true);
     try {
-      final institutions = await _repository.getItems();
+      final response = await _repository.getItems();
       setState(() {
-        _institutions = institutions;
-        _paginationState.totalCount = _repository.totalCount;
+        _dataList = response.data;
+        _paginationState.totalCount = response.totalCount;
       });
     } catch (e) {
       _showErrorMessage();
@@ -66,7 +70,7 @@ class _MedicalInstitutionScreenState extends State<MedicalInstitutionScreen> {
           : Column(
               children: [
                 _buildControlsRow(),
-                _buildInstitutionsList(),
+                _buildDataList(),
                 _buildPagination(),
               ],
             ),
@@ -97,9 +101,9 @@ class _MedicalInstitutionScreenState extends State<MedicalInstitutionScreen> {
         displayName: (item) => item.KrName,
       );
 
-  Widget _buildInstitutionsList() => Expanded(
+  Widget _buildDataList() => Expanded(
         child: ListView.builder(
-          itemCount: _institutions.length,
+          itemCount: _dataList.length,
           itemBuilder: _buildInstitutionCard,
         ),
       );
@@ -114,7 +118,7 @@ class _MedicalInstitutionScreenState extends State<MedicalInstitutionScreen> {
       );
 
   Widget _buildInstitutionCard(BuildContext context, int index) {
-    final institution = _institutions[index];
+    final data = _dataList[index];
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 8.0,
@@ -132,19 +136,19 @@ class _MedicalInstitutionScreenState extends State<MedicalInstitutionScreen> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(right: 20.0),
-                    child: Text('의료기관종별: ${institution.type}'),
+                    child: Text('의료기관종별: ${data.type}'),
                   ),
-                  Text('의료기관명: ${institution.name}'),
+                  Text('의료기관명: ${data.name}'),
                 ],
               ),
               Row(
                 children: [
-                  Text('의료기관전화번호: ${institution.phoneNumber}'),
+                  Text('의료기관전화번호: ${data.phoneNumber}'),
                 ],
               ),
               Row(
                 children: [
-                  Text('의료기관주소(도로명): ${institution.address}'),
+                  Text('의료기관주소(도로명): ${data.address}'),
                 ],
               ),
             ],
@@ -168,21 +172,5 @@ class _MedicalInstitutionScreenState extends State<MedicalInstitutionScreen> {
       _initRepository();
       fetchMedicalInstitutions();
     });
-  }
-}
-
-// 페이지네이션 상태 관리 클래스
-class PaginationState {
-  int currentPage = 1;
-  int perPage = 10;
-  int totalCount = 0;
-
-  int get totalPages => (totalCount / perPage).ceil();
-
-  PerPage getCurrentPerPage() {
-    return PerPage.values.firstWhere(
-      (element) => element.valueToNumber == perPage,
-      orElse: () => PerPage.values.first,
-    );
   }
 }
