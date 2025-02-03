@@ -45,7 +45,7 @@ class FamousRestaurantRepository
     return {
       'pageNo': page,
       'numOfRows': perPage,
-      'resultType': 'json',
+      // 'resultType': 'json',
       'serviceKey': ApiEndpoints.authKeyDecoding,
     };
   }
