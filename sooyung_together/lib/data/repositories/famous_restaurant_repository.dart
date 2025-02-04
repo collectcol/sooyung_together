@@ -7,6 +7,7 @@ import '../../domain/repositories/base_repository.dart';
 class FamousRestaurantRepository
     extends BaseRepository<FamousRestaurantResponse> {
   final LanguageType language;
+  
 
   FamousRestaurantRepository({
     required super.page,
