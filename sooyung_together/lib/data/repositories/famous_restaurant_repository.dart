@@ -49,7 +49,7 @@ class FamousRestaurantRepository
       // 'resultType': 'json',
       'serviceKey': ApiEndpoints.authKeyDecoding,
     };
-  }
+  } 
 
   @override
   FamousRestaurantResponse parseData(Map<String, dynamic> data) {
